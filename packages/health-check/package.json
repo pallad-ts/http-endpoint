@@ -1,6 +1,6 @@
 {
   "name": "@pallad/http-endpoint-health-check",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "main": "compiled/index.js",
   "types": "compiled/index.d.ts",
   "directories": {
