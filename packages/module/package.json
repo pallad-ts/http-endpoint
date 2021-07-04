@@ -26,9 +26,9 @@
     "alpha-dic": "^3"
   },
   "dependencies": {
-    "@pallad/http-endpoint": "^1.0.0",
-    "@pallad/http-endpoint-error-handler": "^1.0.0",
-    "@pallad/http-endpoint-health-check": "^1.0.0"
+    "@pallad/http-endpoint": "*",
+    "@pallad/http-endpoint-error-handler": "*",
+    "@pallad/http-endpoint-health-check": "*"
   },
   "devDependencies": {
     "@pallad/modules": "^1.2.0",
