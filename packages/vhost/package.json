@@ -1,6 +1,6 @@
 {
   "name": "@pallad/http-endpoint-vhost",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "",
   "main": "compiled/index.js",
   "types": "compiled/index.d.ts",
@@ -20,7 +20,7 @@
     "compiled"
   ],
   "dependencies": {
-    "@pallad/http-endpoint": "*"
+    "@pallad/http-endpoint": "^1.0.0"
   },
   "author": "Łukasz Kużyński <lukasz.kuzynski@gmail.com> (http://wookieb.pl)",
   "license": "MIT"
