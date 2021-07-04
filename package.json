@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "@pallad/scripts": "^2.0.0-alpha.12",
+    "@types/express": "^4.17.12",
+    "@types/stack-trace": "0.0.29",
+    "@types/supertest": "^2.0.11",
+    "@types/vhost": "^3.0.2",
+    "express": "^4.17.1",
+    "lerna": "^4.0.0",
+    "sinon": "^9.2.4",
+    "supertest": "^6.1.3"
+  }
+}

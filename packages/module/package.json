@@ -1,0 +1,37 @@
+{
+  "name": "@pallad/http-endpoint-module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "compiled/index.js",
+  "types": "compiled/index.d.ts",
+  "directories": {
+    "test": "test"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "../../node_modules/.bin/pallad-scripts test",
+    "lint": "../../node_modules/.bin/pallad-scripts lint",
+    "compile": "../../node_modules/.bin/pallad-scripts compile",
+    "prepublishOnly": "npm run compile"
+  },
+  "files": [
+    "compiled"
+  ],
+  "author": "Łukasz Kużyński <lukasz.kuzynski@gmail.com> (http://wookieb.pl)",
+  "license": "MIT",
+  "peerDependencies": {
+    "@pallad/modules": "^1",
+    "alpha-dic": "^3"
+  },
+  "dependencies": {
+    "@pallad/http-endpoint": "^1.0.0",
+    "@pallad/http-endpoint-error-handler": "^1.0.0",
+    "@pallad/http-endpoint-health-check": "^1.0.0"
+  },
+  "devDependencies": {
+    "@pallad/modules": "^1.2.0",
+    "alpha-dic": "^3"
+  }
+}
