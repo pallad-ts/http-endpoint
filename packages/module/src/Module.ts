@@ -83,7 +83,7 @@ export class Module extends _Module<{ container: Container }> {
 		if (this.options?.healthCheck || this.options?.healthCheck === undefined) {
 			endpoints.push(
 				new AtPathEndpoint(
-					this.options?.healthCheck?.path || '_health',
+					this.options?.healthCheck?.path || '/_health',
 					new HealthCheckEndpoint(this.options?.healthCheck)
 				)
 			);
