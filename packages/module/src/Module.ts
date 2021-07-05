@@ -32,6 +32,7 @@ export class Module extends _Module<{ container: Container }> {
 				await mount(app, endpoints);
 				this.mountMiddlewares(app, this.options?.afterMiddlewares || []);
 				app.use(this.createErrorHandler());
+				return app;
 			});
 		});
 
