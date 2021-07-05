@@ -23,7 +23,8 @@
   "license": "MIT",
   "peerDependencies": {
     "@pallad/modules": "^1",
-    "alpha-dic": "^3"
+    "alpha-dic": "^3",
+    "express": "^4"
   },
   "dependencies": {
     "@pallad/http-endpoint": "^1.0.0",

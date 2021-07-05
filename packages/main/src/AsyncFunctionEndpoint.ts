@@ -3,7 +3,7 @@ import * as express from 'express';
 
 const asyncHandler = require('express-async-handler')
 
-export abstract class AsyncFunctionEndpoint implements HTTPEndpoint {
+export class AsyncFunctionEndpoint implements HTTPEndpoint {
 	constructor(private handler: express.RequestHandler) {
 	}
 
