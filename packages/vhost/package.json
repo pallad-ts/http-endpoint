@@ -20,7 +20,8 @@
     "compiled"
   ],
   "dependencies": {
-    "@pallad/http-endpoint": "^1.0.1"
+    "@pallad/http-endpoint": "^1.0.1",
+    "vhost": "^3.0.2"
   },
   "author": "Łukasz Kużyński <lukasz.kuzynski@gmail.com> (http://wookieb.pl)",
   "license": "MIT"
