@@ -80,11 +80,11 @@ export class Module extends _Module<{ container: Container }> {
 
 	private createModuleEndpoints() {
 		const endpoints: HTTPEndpoint[] = [];
-		if (this.options?.healthCheck) {
+		if (this.options?.healthCheck || this.options?.healthCheck === undefined) {
 			endpoints.push(
 				new AtPathEndpoint(
-					this.options.healthCheck.path || '_health',
-					new HealthCheckEndpoint(this.options.healthCheck)
+					this.options?.healthCheck?.path || '_health',
+					new HealthCheckEndpoint(this.options?.healthCheck)
 				)
 			);
 		}
