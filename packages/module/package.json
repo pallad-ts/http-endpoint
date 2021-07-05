@@ -1,6 +1,6 @@
 {
   "name": "@pallad/http-endpoint-module",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "compiled/index.js",
   "types": "compiled/index.d.ts",
