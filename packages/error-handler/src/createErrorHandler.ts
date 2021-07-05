@@ -4,7 +4,7 @@ import * as express from 'express';
 export function createErrorHandler(errorMapper: ErrorMapperBuilder.Mapper | ErrorMapperBuilder) {
 	const finalErrorMapper = errorMapper instanceof ErrorMapperBuilder ? errorMapper.get() : errorMapper;
 
-	return (err: Error, req: express.Request, res: express.Response) => {
+	return (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
 		const errorOutput = finalErrorMapper(err);
 
 		res.status(errorOutput.statusCode);
