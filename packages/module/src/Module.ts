@@ -7,6 +7,7 @@ import {AtPathEndpoint, HTTPEndpoint, mount} from '@pallad/http-endpoint';
 import {annotation} from './annotation';
 import * as http from 'http';
 import {promisify} from 'util';
+import * as https from 'https';
 
 export class Module extends _Module<{ container: Container }> {
 	private server?: http.Server;
@@ -61,11 +62,20 @@ export class Module extends _Module<{ container: Container }> {
 		const app = await container.get<express.Application>(this.serviceName);
 		const port = this.options?.port ?? 80;
 
-		this.server = app.listen(port, () => {
-			for (const listener of (this.options?.onStartListeners || [])) {
-				listener(port);
-			}
-		});
+		if (this.options?.tls) {
+			https.createServer(this.options.tls, app)
+				.listen(port, () => {
+					for (const listener of (this.options?.onStartListeners || [])) {
+						listener(port);
+					}
+				});
+		} else {
+			this.server = app.listen(port, () => {
+				for (const listener of (this.options?.onStartListeners || [])) {
+					listener(port);
+				}
+			});
+		}
 	}
 
 	/**
@@ -125,6 +135,11 @@ export namespace Module {
 		 * Listeners to call upon server start
 		 */
 		onStartListeners?: OnStartListener[];
+
+		/**
+		 * TLS options. Setting them makes app run through TLS
+		 */
+		tls?: https.ServerOptions
 	}
 
 	export namespace Options {
