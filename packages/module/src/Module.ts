@@ -63,7 +63,7 @@ export class Module extends _Module<{ container: Container }> {
 		const port = this.options?.port ?? 80;
 
 		if (this.options?.tls) {
-			https.createServer(this.options.tls, app)
+			this.server = https.createServer(this.options.tls, app)
 				.listen(port, () => {
 					for (const listener of (this.options?.onStartListeners || [])) {
 						listener(port);
