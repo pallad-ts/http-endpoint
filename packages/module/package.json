@@ -34,5 +34,6 @@
   "devDependencies": {
     "@pallad/modules": "^1.2.0",
     "alpha-dic": "^3"
-  }
+  },
+  "gitHead": "4e98f029e2ea54dd9637ef883237136ad687a30f"
 }
