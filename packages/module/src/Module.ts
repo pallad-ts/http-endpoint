@@ -17,12 +17,14 @@ export class Module extends _Module<{ container: Container }> {
 	}
 
 	init() {
+		const discoveryEnabled = this.options?.discoverEndpointsInContainer ?? true;
+
 		this.registerAction(StandardActions.INITIALIZATION, ({container}) => {
 			container.definitionWithFactory(this.serviceName, async () => {
 				const app = express();
 
 				const moduleEndpoints = this.createModuleEndpoints();
-				const registeredEndpoints = await container.getByAnnotation<HTTPEndpoint>(annotation.predicate);
+				const registeredEndpoints = discoveryEnabled ? await container.getByAnnotation<HTTPEndpoint>(annotation.predicate) : [];
 
 				const endpoints = [
 					...moduleEndpoints,
@@ -135,6 +137,13 @@ export namespace Module {
 		 * Listeners to call upon server start
 		 */
 		onStartListeners?: OnStartListener[];
+
+		/**
+		 * Enabled endpoints discovery in dependency injection container
+		 *
+		 * Enabled by default.
+		 */
+		discoverEndpointsInContainer?: boolean;
 
 		/**
 		 * TLS options. Setting them makes app run through TLS
