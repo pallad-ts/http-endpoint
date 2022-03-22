@@ -31,16 +31,26 @@ export class Module extends _Module<{ container: Container }> {
 					...registeredEndpoints
 				];
 
+				this.dispatchAppEvent(this.options?.onBeforeSetupListeners, app);
 				this.mountMiddlewares(app, this.options?.beforeMiddlewares || [])
 				await mount(app, endpoints);
 				this.mountMiddlewares(app, this.options?.afterMiddlewares || []);
 				app.use(this.createErrorHandler());
+				this.dispatchAppEvent(this.options?.onAfterSetupListeners, app);
 				return app;
 			});
 		});
 
 		this.registerAction(StandardActions.APPLICATION_START, ({container}) => this.start(container));
 		this.registerAction(StandardActions.APPLICATION_STOP, () => this.stop());
+	}
+
+	private dispatchAppEvent(listeners: Array<Module.OnAppListener> | undefined, app: express.Application) {
+		if (listeners) {
+			for (const listener of listeners) {
+				listener(app);
+			}
+		}
 	}
 
 	private mountMiddlewares(app: express.Application, middlewares: express.RequestHandler[]) {
@@ -139,6 +149,16 @@ export namespace Module {
 		onStartListeners?: OnStartListener[];
 
 		/**
+		 * Callbacks to call before application setup
+		 */
+		onBeforeSetupListeners?: Array<OnAppListener>;
+
+		/**
+		 * Callbacks to call after application setup
+		 */
+		onAfterSetupListeners?: Array<OnAppListener>;
+
+		/**
 		 * Enabled endpoints discovery in dependency injection container
 		 *
 		 * Enabled by default.
@@ -161,4 +181,6 @@ export namespace Module {
 	}
 
 	export type OnStartListener = (port: number) => void;
+
+	export type OnAppListener = (app: express.Application) => void;
 }
