@@ -45,7 +45,7 @@ export class Module extends _Module<{ container: Container }> {
 		this.registerAction(StandardActions.APPLICATION_STOP, () => this.stop());
 	}
 
-	private dispatchAppEvent(listeners: Array<Module.OnAppListener> | undefined, app: express.Application) {
+	private dispatchAppEvent(listeners: Module.OnAppListener[] | undefined, app: express.Application) {
 		if (listeners) {
 			for (const listener of listeners) {
 				listener(app);
@@ -151,12 +151,12 @@ export namespace Module {
 		/**
 		 * Callbacks to call before application setup
 		 */
-		onBeforeSetupListeners?: Array<OnAppListener>;
+		onBeforeSetupListeners?: OnAppListener[];
 
 		/**
 		 * Callbacks to call after application setup
 		 */
-		onAfterSetupListeners?: Array<OnAppListener>;
+		onAfterSetupListeners?: OnAppListener[];
 
 		/**
 		 * Enabled endpoints discovery in dependency injection container

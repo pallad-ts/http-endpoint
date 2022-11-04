@@ -11,7 +11,6 @@
     "access": "public"
   },
   "scripts": {
-    "test": "../../node_modules/.bin/pallad-scripts test",
     "lint": "../../node_modules/.bin/pallad-scripts lint",
     "compile": "../../node_modules/.bin/pallad-scripts compile",
     "prepublishOnly": "npm run compile"
@@ -20,7 +19,7 @@
     "compiled"
   ],
   "dependencies": {
-    "@pallad/http-endpoint": "^1.1.0",
+    "@pallad/http-endpoint": "*",
     "vhost": "^3.0.2"
   },
   "author": "Łukasz Kużyński <lukasz.kuzynski@gmail.com> (http://wookieb.pl)",

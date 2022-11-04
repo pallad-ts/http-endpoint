@@ -1,7 +1,7 @@
 import {AsyncFunctionEndpoint} from '@pallad/http-endpoint';
 import * as express from 'express';
 import {Probe} from './Probe';
-import {Either, Validation} from 'monet';
+import {Either, left, right} from "@sweet-monads/either";
 
 export class HealthCheckEndpoint extends AsyncFunctionEndpoint {
 	static DEFAULT_OPTIONS: HealthCheckEndpoint.Options = {
@@ -21,13 +21,13 @@ export class HealthCheckEndpoint extends AsyncFunctionEndpoint {
 				res.json(this.options.defaultResponse);
 			} else {
 				const probesResult = await this.getProbesResult();
-				if (probesResult.isSuccess()) {
+				if (probesResult.isRight()) {
 					res.status(this.options.healthyStatusCode);
-					res.json(probesResult.success());
+					res.json(probesResult.value);
 				} else {
 					res.status(this.options.unhealthyStatusCode);
 					res.json({
-						errorMessage: probesResult.fail().message
+						errorMessage: probesResult.value.message
 					});
 				}
 			}
@@ -45,17 +45,17 @@ export class HealthCheckEndpoint extends AsyncFunctionEndpoint {
 		}
 	}
 
-	private async getProbesResult(): Promise<Validation<Error, Record<string, any>>> {
+	private async getProbesResult(): Promise<Either<Error, Record<string, any>>> {
 		const probesResult: Record<string, any> = {};
 
 		for (const [name, probe] of this.probes.entries()) {
-			const singleResult = await Either.fromPromise<any>(probe());
+			const singleResult = await Promise.resolve(probe()).then(right).catch(left);
 			if (singleResult.isLeft()) {
-				return singleResult.toValidation();
+				return singleResult;
 			}
-			probesResult[name] = singleResult.right();
+			probesResult[name] = singleResult.value;
 		}
-		return Validation.Success(probesResult);
+		return right(probesResult);
 	}
 
 	addProbe(name: string, probe: Probe): this {
