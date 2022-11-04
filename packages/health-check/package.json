@@ -1,6 +1,6 @@
 {
   "name": "@pallad/http-endpoint-health-check",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "main": "compiled/index.js",
   "types": "compiled/index.d.ts",
   "directories": {
@@ -18,7 +18,7 @@
     "compiled"
   ],
   "dependencies": {
-    "@pallad/http-endpoint": "*",
+    "@pallad/http-endpoint": "^1.2.0",
     "@sweet-monads/either": "^3"
   },
   "author": "Łukasz Kużyński <lukasz.kuzynski@gmail.com> (http://wookieb.pl)",
