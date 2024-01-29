@@ -12,6 +12,6 @@ export class VHostEndpoint implements HTTPEndpoint {
 		debug(`Mounting vhost: ${this.vhost}`);
 		const newRouter = express.Router({mergeParams: true});
 		this.endpoint.register(newRouter);
-		router.use(vhost(this.vhost, newRouter));
+		router.use(vhost(this.vhost, newRouter as unknown as vhost.Handler));
 	}
 }
