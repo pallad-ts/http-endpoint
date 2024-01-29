@@ -1,13 +1,15 @@
 import {Module as _Module, StandardActions} from '@pallad/modules';
 import {HealthCheckEndpoint} from '@pallad/http-endpoint-health-check';
-import {Container} from 'alpha-dic';
-import {ErrorMapperBuilder, createErrorHandler} from '@pallad/http-endpoint-error-handler';
+import {Container, Definition} from '@pallad/container';
 import * as express from 'express';
 import {AtPathEndpoint, HTTPEndpoint, mount} from '@pallad/http-endpoint';
 import {annotation} from './annotation';
 import * as http from 'http';
 import {promisify} from 'util';
 import * as https from 'https';
+import {ErrorMapperBuilder} from '@pallad/error-mapper';
+import {ErrorOutput} from "./ErrorOutput";
+import {createErrorHandlerWithErrorMapper} from "./createErrorHandlerWithErrorMapper";
 
 export class Module extends _Module<{ container: Container }> {
 	private server?: http.Server;
@@ -20,25 +22,28 @@ export class Module extends _Module<{ container: Container }> {
 		const discoveryEnabled = this.options?.discoverEndpointsInContainer ?? true;
 
 		this.registerAction(StandardActions.INITIALIZATION, ({container}) => {
-			container.definitionWithFactory(this.serviceName, async () => {
-				const app = express();
 
-				const moduleEndpoints = this.createModuleEndpoints();
-				const registeredEndpoints = discoveryEnabled ? await container.getByAnnotation<HTTPEndpoint>(annotation.predicate) : [];
+			container.registerDefinition(
+				Definition.useFactory(async () => {
+					const app = express();
 
-				const endpoints = [
-					...moduleEndpoints,
-					...registeredEndpoints
-				];
+					const moduleEndpoints = this.createModuleEndpoints();
+					const registeredEndpoints = discoveryEnabled ? await container.resolveByAnnotation<HTTPEndpoint, typeof annotation>(annotation.predicate) : [];
 
-				this.dispatchAppEvent(this.options?.onBeforeSetupListeners, app);
-				this.mountMiddlewares(app, this.options?.beforeMiddlewares || [])
-				await mount(app, endpoints);
-				this.mountMiddlewares(app, this.options?.afterMiddlewares || []);
-				app.use(this.createErrorHandler());
-				this.dispatchAppEvent(this.options?.onAfterSetupListeners, app);
-				return app;
-			});
+					const endpoints = [
+						...moduleEndpoints,
+						...registeredEndpoints.map(x => x[0])
+					];
+
+					this.dispatchAppEvent(this.options?.onBeforeSetupListeners, app);
+					this.mountMiddlewares(app, this.options?.beforeMiddlewares || [])
+					await mount(app, endpoints);
+					this.mountMiddlewares(app, this.options?.afterMiddlewares || []);
+					app.use(this.createErrorHandler());
+					this.dispatchAppEvent(this.options?.onAfterSetupListeners, app);
+					return app;
+				}, this.serviceName)
+			)
 		});
 
 		this.registerAction(StandardActions.APPLICATION_START, ({container}) => this.start(container));
@@ -71,7 +76,7 @@ export class Module extends _Module<{ container: Container }> {
 			throw new Error('The module has started already');
 		}
 
-		const app = await container.get<express.Application>(this.serviceName);
+		const app = await container.resolve<express.Application>(this.serviceName);
 		const port = this.options?.port ?? 80;
 
 		if (this.options?.tls) {
@@ -114,8 +119,8 @@ export class Module extends _Module<{ container: Container }> {
 	}
 
 	private createErrorHandler() {
-		const errorMapperBuilder = this.options?.errorMapperBuilder ?? ErrorMapperBuilder.fromEnv();
-		return createErrorHandler(errorMapperBuilder.get());
+		const errorMapperBuilder = this.options?.errorMapperBuilder ?? ErrorMapperBuilder.fromEnv<ErrorOutput>();
+		return createErrorHandlerWithErrorMapper(errorMapperBuilder.get());
 	}
 }
 
@@ -134,7 +139,7 @@ export namespace Module {
 		/**
 		 * Customizes error mapper builder for error handling
 		 */
-		errorMapperBuilder?: ErrorMapperBuilder,
+		errorMapperBuilder?: ErrorMapperBuilder<ErrorOutput>,
 		/**
 		 * List of middlewares to register before endpoints
 		 */

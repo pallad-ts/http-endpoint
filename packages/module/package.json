@@ -26,13 +26,14 @@
     "express": "^4"
   },
   "dependencies": {
+    "@pallad/error-mapper": "^1.0.1",
     "@pallad/http-endpoint": "^1.2.0",
     "@pallad/http-endpoint-error-handler": "*",
     "@pallad/http-endpoint-health-check": "^2.0.0"
   },
   "devDependencies": {
-    "@pallad/modules": "^1.2.0",
-    "alpha-dic": "^3"
+    "@pallad/container": "^1",
+    "@pallad/modules": "^1.2.0"
   },
   "gitHead": "4e98f029e2ea54dd9637ef883237136ad687a30f"
 }

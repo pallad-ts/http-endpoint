@@ -6,7 +6,10 @@
     "@types/stack-trace": "0.0.29",
     "@types/vhost": "^3.0.2",
     "express": "^4.17.1",
-    "lerna": "^4.0.0",
-    "sinon": "^14"
-  }
+    "lerna": "^8.0.0",
+    "sinon": "^17"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
