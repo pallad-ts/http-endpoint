@@ -1,6 +1,6 @@
 {
   "name": "@pallad/http-endpoint",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "compiled/index.js",
   "types": "compiled/index.d.ts",
   "directories": {

@@ -1,6 +1,6 @@
 {
   "name": "@pallad/http-endpoint-module",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "",
   "main": "compiled/index.js",
   "types": "compiled/index.d.ts",
@@ -27,9 +27,9 @@
   },
   "dependencies": {
     "@pallad/error-mapper": "^1.0.1",
-    "@pallad/http-endpoint": "^1.2.0",
+    "@pallad/http-endpoint": "^1.2.1",
     "@pallad/http-endpoint-error-handler": "*",
-    "@pallad/http-endpoint-health-check": "^2.0.0"
+    "@pallad/http-endpoint-health-check": "^2.0.1"
   },
   "devDependencies": {
     "@pallad/container": "^1",
